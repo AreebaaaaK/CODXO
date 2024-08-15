@@ -1,0 +1,79 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class NGG {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        int numberToGuess, maxRange = 100, maxAttempts = 10, score = 0;
+        int guess, attempts;
+        boolean win, playAgain = true;
+
+        while (playAgain) {
+            System.out.println("Welcome to the Advanced Number Guessing Game!");
+            System.out.println("Choose a difficulty level:");
+            System.out.println("1. Easy (1-50, 10 attempts)");
+            System.out.println("2. Medium (1-100, 7 attempts)");
+            System.out.println("3. Hard (1-200, 5 attempts)");
+            System.out.print("Enter your choice (1-3): ");
+            int difficulty = scanner.nextInt();
+
+            switch (difficulty) {
+                case 1:
+                    maxRange = 50;
+                    maxAttempts = 10;
+                    break;
+                case 2:
+                    maxRange = 100;
+                    maxAttempts = 7;
+                    break;
+                case 3:
+                    maxRange = 200;
+                    maxAttempts = 5;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Defaulting to Medium.");
+                    maxRange = 100;
+                    maxAttempts = 7;
+            }
+
+            numberToGuess = random.nextInt(maxRange) + 1;
+            attempts = 0;
+            win = false;
+
+            System.out.println("I have selected a number between 1 and " + maxRange + ". Try to guess it!");
+            System.out.println("You have " + maxAttempts + " attempts. Good luck!");
+
+            while (attempts < maxAttempts && !win) {
+                System.out.print("Enter your guess: ");
+                guess = scanner.nextInt();
+                attempts++;
+
+                if (guess < numberToGuess) {
+                    System.out.println("Too low! Try again.");
+                } else if (guess > numberToGuess) {
+                    System.out.println("Too high! Try again.");
+                } else {
+                    win = true;
+                    score = (maxAttempts - attempts + 1) * 10; // Scoring system
+                    System.out.println("Congratulations! You guessed the number " + numberToGuess + " in " + attempts + " attempts.");
+                    System.out.println("Your score: " + score);
+                }
+            }
+
+            if (!win) {
+                System.out.println("Sorry! You've used all " + maxAttempts + " attempts.");
+                System.out.println("The number was: " + numberToGuess);
+            }
+
+            System.out.print("Do you want to play again? (yes/no): ");
+            String response = scanner.next();
+            playAgain = response.equalsIgnoreCase("yes");
+        }
+
+        System.out.println("Thanks for playing! Goodbye.");
+        scanner.close();
+    }
+}
